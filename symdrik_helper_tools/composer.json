@@ -1,0 +1,11 @@
+{
+    "name": "drupal/symdrik_helper_tools",
+    "type": "drupal-module",
+    "description": "Offre une interface conviviale pour gérer les opérations CRUD (Create, Read, Update, Delete) sur les entités Drupal.",
+    "homepage": "https://magento-tunisia.com/",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": "^7.3 || ^8.0",
+        "drupal/core": "^9.2 || ^10"
+    }
+}
