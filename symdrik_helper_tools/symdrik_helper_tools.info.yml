@@ -1,0 +1,5 @@
+name: Symdrik helper tools
+description: 'This package allows applications to call helper functions then Node, Taxonomy, Paragraph, Mailer, User.'
+package:  Symdrik tools
+core_version_requirement: ^8 | ^9
+type: module

@@ -1,0 +1,3 @@
+admin_script:
+  js:
+    js/admin-script.js: {}

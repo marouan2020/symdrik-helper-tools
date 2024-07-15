@@ -1,0 +1,45 @@
+<?php
+
+function _symdrik_helper_tools_get_translation_text_by_langcode($sourceString, $langcode = "en") {
+  $translationLid =  _symdrik_helper_tools_add_string_to_storage($sourceString, $langcode);
+  if(!empty($translationLid)) {
+    $connection = \Drupal\Core\Database\Database::getConnection();
+    $query = $connection->select('locales_target', 'lt');
+    $query->addField('lt', 'translation');
+    $query->condition('lid', $translationLid);
+    $query->condition('language', $langcode);
+    $results = $query->execute()->fetchAssoc();
+    if(!empty($results)) {
+      return $results['translation'];
+    }
+  }
+  return $sourceString;
+}
+
+function _symdrik_helper_tools_add_string_to_storage($sourceString) {
+  if (empty($sourceString)) {
+    return NULL;
+  }
+  $storage = \Drupal::service('locale.storage');
+  $translation =  $storage->findTranslation(array('source' => $sourceString));
+  if(!empty($translation->lid)) {
+    return $translation->lid;
+  }
+  $string = $storage->findString(array('source' => $sourceString));
+  if (is_null($string)) {
+    $string = new \Drupal\locale\SourceString();
+    $string->setString($sourceString);
+    $string->setStorage($storage);
+    $string->save();
+    return $string->lid;
+  }
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function symdrik_helper_tools_page_attachments(array &$attachments) {
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    $attachments['#attached']['library'][] = 'symdrik_helper_tools/admin_script';
+  }
+}
